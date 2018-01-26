@@ -1,147 +1,133 @@
+<p align="center">
+<a href="http://hanc.cc"><img src="https://img.shields.io/badge/contact-@HanSon-orange.svg?style=flat"></a>
+<img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat">
+</p>
 
-# 安装
-
-## 环境要求
-
-* PHP >= 5.6
+<p align="center">
+  <b>Special thanks to the generous sponsorship by:</b>
+  <br><br>
+  <a target="_blank" href="https://www.yousails.com">
+    <img src="https://yousails.com/banners/brand.png" width=350>
+  </a>
+  <br><br>
+  <a href="https://laravist.com">
+    <img width="300px" src="https://fuss10.elemecdn.com/4/87/c072c1651b0efd1c5cde39bc8b422png.png">
+  </a>
+</p>
 
 ## 安装
 
-1、composer
+### 环境要求
+
+- PHP >= 7.0
+- [PHP fileinfo 拓展](http://php.net/manual/en/book.fileinfo.php) 储存文件需要用到
+- [PHP gd 拓展](http://php.net/manual/en/book.image.php) 控制台显示二维码
+- [PHP SimpleXML 拓展](https://secure.php.net/manual/en/book.simplexml.php) 解析XML
+
+### 安装
+
+**请确保已经会使用composer！**
+
+**运行微信账号的语言设置务必设置为简体中文！！否则可能出现未知的错误！**
+
+#### composer
 
 ```
 composer require hanson/vbot
 ```
 
-然后执行``` php example/index.php ``` 
+## 文档
 
-PS:运行后二维码将保存于设置的缓存目录，命名为qr.png，控制台也会显示二维码，扫描即可（linux用户请确保已经打开ANSI COLOR）
+[详细文档](https://hanson.github.io/vbot)
 
-*警告！执行前请先查看`index.php`的代码，注释掉你认为不需要的代码，避免对其他人好友造成困扰*
+## 相似项目
 
-# 文档
-
-详细文档在[wiki](https://github.com/HanSon/vbot/wiki)中
-
-## 例子
-
-[所有类型例子](https://github.com/HanSon/vbot/blob/master/example/index.php)
-
-[红包提醒](https://github.com/HanSon/vbot/blob/master/example/hongbao.php)
-
-[轰炸消息到某群名](https://github.com/HanSon/vbot/blob/master/example/group.php)
-
-[消息转发](https://github.com/HanSon/vbot/blob/master/example/forward.php)
-
-[自定义处理器](https://github.com/HanSon/vbot/blob/master/example/custom.php)
-
-[一键拜年](https://github.com/HanSon/vbot/blob/master/example/bainian.php)
-
-[聊天操作](https://github.com/HanSon/vbot/blob/master/example/contact.php)
-
-
-## 基本使用
-
-```
-// 图灵API自动回复
-require_once __DIR__ . './../vendor/autoload.php';
-
-use Hanson\Vbot\Foundation\Vbot;
-use Hanson\Vbot\Message\Entity\Message;
-use Hanson\Vbot\Message\Entity\Text;
-
-$robot = new Vbot([
-    'tmp' => '/path/to/tmp/', # 用于生成登录二维码以及文件保存
-    'debug' => true # 用于是否输出用户组的json
-]);
-
-// 图灵自动回复
-function reply($str){
-    return http()->post('http://www.tuling123.com/openapi/api', [
-        'key' => '1dce02aef026258eff69635a06b0ab7d',
-        'info' => $str
-    ], true)['text'];
-
-}
-
-$robot->server->setMessageHandler(function($message){
-    // 文字信息
-    if ($message instanceof Text) {
-        /** @var $message Text */
-        // 联系人自动回复
-        if ($message->fromType === 'Contact') {
-            return reply($message->content);
-            // 群组@我回复
-        } elseif ($message->fromType === 'Group' && $message->isAt) {
-            return reply($message->content);
-        }
-    }
-});
-
-$robot->server->run();
-
-```
-
-# to do list
-
-- [x] 消息处理
-  - [x] 文字
-  - [x] 图片
-  - [x] 语音
-  - [x] 位置
-  - [x] 视频
-  - [x] 撤回
-  - [x] 表情
-  - [x] 红包
-  - [x] 转账
-  - [x] 名片
-  - [x] 好友验证
-  - [x] 分享
-  - [x] 公众号推送
-  - [x] 新好友
-  - [x] 群变动（增加成员，移除成员，更改群名）
-  - [x] 小程序
+[littlecodersh/ItChat](https://github.com/littlecodersh/ItChat) python
   
-- [x] 消息存储
-  - [x] 语音
-  - [x] 图片
-  - [x] 视频
-  - [x] 表情
+[Wechaty - A Javascript Implementation of Wechat Bot Framework](https://github.com/Chatie/wechaty)
 
-- [x] 消息发送
-  - [x] 发送文字
-  - [x] 发送图片
-  - [x] 发送表情
-  - [x] 发送视频
-
-- [x] 群操作
-  - [x] 创建群
-  - [x] 把某人踢出群
-  - [x] 邀请好友加入群
-  - [x] 修改群名称
+[liuwons/wxBot](https://github.com/liuwons/wxBot) python
   
-- [x] 好友操作
-  - [x] 给好友添加备注
-  - [x] 通过好友验证
+[lbbniu/WebWechat](https://github.com/lbbniu/WebWechat) php
 
-- [x] 聊天窗口操作
-  - [x] 置顶聊天会话
-  - [x] 取消聊天会话指定
-  
-- [ ] 命令行操作信息发送
+[songtianyi/wechat-go](https://github.com/songtianyi/wechat-go) go
 
-## 参考项目
+## donate 名单
 
-[lbbniu/WebWechat](https://github.com/lbbniu/WebWechat)
 
-[littlecodersh/ItChat](https://github.com/littlecodersh/ItChat) 
+vbot 的发展离不开大家的支持，无论是star或者donate，本人都衷心的感谢各位，也会尽自己的绵薄之力把 vbot 做到最好。
 
-感谢楼上两位作者曾对本人耐心解答
+donate 名单 （排名按时间倒序）
 
-[liuwons/wxBot](https://github.com/liuwons/wxBot) 参考了整个微信的登录流程与消息处理
+|捐助者|金额|
+|-----|----|
+|[阿震](https://github.com/zzDylan)|￥100|
+|[15007163260](https://github.com/15007163260)|￥8.88|
+|[桥边红药的博客](https://www.96qbhy.com)|￥21 * 2 + 5 + 20 + 22 + 100|
+|[greedying](https://github.com/greedying)|￥30|
+|匿名| ￥6.66|
+|[后三排](https://housanpai.com)|￥20|
+|[RunnerLee](https://github.com/RunnerLee)| ￥20|
+|[elrond-g](https://github.com/elrond-g)| ￥6.66|
+|匿名| ￥10|
+|[醉赞](http://zuizan100.com)| ￥188|
+|堃| ￥26.66|
+|J| ￥6.66 * 5|
+|[yaoshanliang](https://github.com/yaoshanliang)| ￥6.66|
+|匿名| ￥18.8|
+|[summer](https://github.com/summerblue)|￥66.66 + 200|
+|[gaojiyong](https://github.com/gaojiyong)| ￥8.88 * 2|
+|匿名| ￥66.66|
+|匿名| ￥66|
+|[yeyupl](https://github.com/yeyupl)| ￥99|
+|[shengbinxu](https://github.com/shengbinxu)|￥20|
+|[淘布布网](http://www.taobubu.com)|￥50|
+|匿名| ￥6.66|
+|[xiaoyongbrother](https://github.com/xiaoyongbrother)|￥8.88|
+|[panda](https://github.com/wujunze)|￥10.24|
+|匿名| ￥18.88|
+|匿名| ￥6.66|
+|bug| ￥6.66 + 66 + 5|
+|匿名| ￥6.66|
+|匿名| ￥6.66|
+|匿名| ￥6.66|
+|[vochina](https://github.com/vochina)|￥18.88|
+|李大善人| ￥666|
+|匿名| ￥10|
+|细高| ￥6.66|
+|匿名| ￥20|
+|匿名| ￥66|
+|小浪| ￥10|
+|[美羊软件](http://www.yangsoft.cn/)|￥66|
+|匿名| ￥200|
+|[KimiChen](https://github.com/KimiChen)|￥188|
+|倪好 | ￥88 * 2|
+|匿名| ￥6.66|
+|[liuhui5354](https://github.com/liuhui5354)|￥6.66|
+|匿名| ￥6.66|
+|匿名| ￥50.00|
+|[bestony](https://github.com/bestony)|￥10.24|
+|匿名| ￥8.88|
+|[haidaofei](https://github.com/haidaofei)|￥88.00|
+|[kyaky](https://github.com/kyaky)|￥16.66|
+|[justmd5](https://github.com/justmd5)|￥10.00|
+|匿名| ￥20.00|
+|匿名| ￥88.88|
+|[:bear:Neo](https://github.com/Callwoola)|￥6.66|
+|[lifesign](https://github.com/lifesign)|￥66.66|
+|[口语猫](http://www.kouyumao.com/)|￥50.00|
+|[Laravist - 最好的 Laravel 视频教程](https://www.laravist.com)| ￥66.66|
+|[xingchenboy](https://github.com/xingchenboy)| ￥28.80|
+|匿名| ￥6.66|
+|[包菜网](http://baocai.us)| ￥16.88|
+|[BEIBEI123](https://github.com/beibei123)| ￥28.88|
+|[Steven Lei](https://github.com/stevenlei)| ￥88|
+|9688| ￥8.88|
+|[kisexu](https://github.com/kisexu)| ￥88|
+|匿名的某师兄| ￥181.80|
+|A梦|￥18.88 * 4 |
+|[toby2016](https://github.com/toby2016)|￥5|
 
-## 问题和建议
+打赏时请记得备注上你的github账号或者其他链接，谢谢支持！
 
-有问题或者建议都可以提issue
-
-或者加入我新建的QQ群：492548647
+<img src="https://ww2.sinaimg.cn/large/685b97a1gy1fd61orxreaj20yf19fmz1.jpg" height="320"><img src="https://ww2.sinaimg.cn/large/685b97a1gy1fd61qscynwj20ng0zk0tx.jpg" height="320">
